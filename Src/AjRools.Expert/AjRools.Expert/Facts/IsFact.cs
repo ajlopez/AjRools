@@ -33,6 +33,9 @@
             if (this.name != fact.name)
                 return false;
 
+            if (this.value == null)
+                return fact.value == null;
+
             if (!this.value.Equals(fact.value))
                 return false;
 
@@ -41,6 +44,9 @@
 
         public override int GetHashCode()
         {
+            if (this.value == null)
+                return this.name.GetHashCode();
+
             return this.name.GetHashCode() * 17 + this.value.GetHashCode();
         }
     }
