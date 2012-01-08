@@ -12,7 +12,15 @@
 
         public void AssertFact(Fact fact)
         {
+            if (this.facts.Contains(fact))
+                return;
+
             this.facts.Add(fact);
+        }
+
+        public void RetractFact(Fact fact)
+        {
+            this.facts.Remove(fact);
         }
 
         public bool IsAFact(Fact fact)

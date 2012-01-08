@@ -32,5 +32,23 @@ namespace AjRools.Expert.Tests
             Fact fact = new IsFact("Temperature", 38);
             Assert.IsTrue(this.world.IsAFact(fact));
         }
+
+        [TestMethod]
+        public void RetractAndTestFact()
+        {
+            Fact fact = new IsFact("Temperature", 38);
+            this.world.RetractFact(fact);
+            Assert.IsFalse(this.world.IsAFact(fact));
+        }
+
+        [TestMethod]
+        public void AssertTwiceRetractAndTestFact()
+        {
+            Fact fact = new IsFact("Age", 40);
+            this.world.AssertFact(fact);
+            this.world.AssertFact(new IsFact("Age", 40));
+            this.world.RetractFact(fact);
+            Assert.IsFalse(this.world.IsAFact(fact));
+        }
     }
 }
