@@ -67,6 +67,9 @@
             if (ich != -1)
                 this.PushChar(ich);
 
+            if (value == "false" || value == "true")
+                return new Token(value, TokenType.Boolean);
+
             return new Token(value, TokenType.Name);
         }
 

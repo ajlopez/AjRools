@@ -17,6 +17,10 @@
             this.assertions = assertions;
         }
 
+        public IEnumerable<Fact> Conditions { get { return this.conditions; } }
+
+        public IEnumerable<Fact> Assertions { get { return this.assertions; } }
+
         public bool FireIfReady(World world)
         {
             if (!this.IsReadyToFire(world))

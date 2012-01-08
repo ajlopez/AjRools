@@ -10,6 +10,7 @@
         Name,
         Integer,
         String,
+        Boolean,
         Operator,
         EndOfLine
     }

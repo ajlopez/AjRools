@@ -145,9 +145,9 @@ namespace AjLang.Tests.Compiler
         {
             Lexer lexer = new Lexer("Temperature > 36");
 
-            IsName("Temperature", lexer.NextToken());
-            IsOperator(">", lexer.NextToken());
-            IsInteger("36", lexer.NextToken());
+            Assert.IsTrue(IsName("Temperature", lexer.NextToken()));
+            Assert.IsTrue(IsOperator(">", lexer.NextToken()));
+            Assert.IsTrue(IsInteger("36", lexer.NextToken()));
 
             Assert.IsNull(lexer.NextToken());
         }
@@ -157,9 +157,20 @@ namespace AjLang.Tests.Compiler
         {
             Lexer lexer = new Lexer("30 < 36");
 
-            IsName("30", lexer.NextToken());
-            IsOperator("<", lexer.NextToken());
-            IsInteger("36", lexer.NextToken());
+            Assert.IsTrue(IsInteger("30", lexer.NextToken()));
+            Assert.IsTrue(IsOperator("<", lexer.NextToken()));
+            Assert.IsTrue(IsInteger("36", lexer.NextToken()));
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
+        public void ParseBooleans()
+        {
+            Lexer lexer = new Lexer("true false");
+
+            Assert.IsTrue(IsBoolean("true", lexer.NextToken()));
+            Assert.IsTrue(IsBoolean("false", lexer.NextToken()));
 
             Assert.IsNull(lexer.NextToken());
         }
@@ -172,6 +183,11 @@ namespace AjLang.Tests.Compiler
         private static bool IsOperator(string value, Token token)
         {
             return IsToken(TokenType.Operator, value, token);
+        }
+
+        private static bool IsBoolean(string value, Token token)
+        {
+            return IsToken(TokenType.Boolean, value, token);
         }
 
         private static bool IsInteger(string value, Token token)
