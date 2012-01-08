@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class NameVerbValueFact : Fact
+    public abstract class NameVerbValueFact : Fact
     {
         private string name;
         private string verb;
@@ -23,6 +23,13 @@
         public string Verb { get { return this.verb; } }
 
         public object Value { get { return this.value; } }
+
+        public bool IsSatisfied(Context context)
+        {
+            return this.IsSatisfied(context.GetValue(this.name));
+        }
+
+        public abstract bool IsSatisfied(object value);
 
         public override bool Equals(object obj)
         {

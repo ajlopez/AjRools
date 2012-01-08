@@ -5,19 +5,19 @@
     using System.Linq;
     using System.Text;
 
-    public class IsFact : NameVerbValueFact
+    public class IsNotFact : NameVerbValueFact
     {
-        public IsFact(string name, object value)
-            : base(name, "is", value)
+        public IsNotFact(string name, object value)
+            : base(name, "is_not", value)
         {
         }
 
         public override bool IsSatisfied(object value)
         {
             if (this.Value == null)
-                return value == null;
+                return value != null;
 
-            return this.Value.Equals(value);
+            return !this.Value.Equals(value);
         }
     }
 }

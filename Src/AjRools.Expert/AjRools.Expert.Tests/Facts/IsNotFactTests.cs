@@ -8,68 +8,69 @@ using AjRools.Expert.Facts;
 namespace AjRools.Expert.Tests.Facts
 {
     [TestClass]
-    public class IsFactTests
+    public class IsNotFactTests
     {
         [TestMethod]
-        public void CreateIsFact()
+        public void CreateIsNotFact()
         {
-            IsFact fact = new IsFact("Temperature", 38);
+            IsNotFact fact = new IsNotFact("Temperature", 38);
 
             Assert.AreEqual("Temperature", fact.Name);
             Assert.AreEqual(38, fact.Value);
-            Assert.AreEqual("is", fact.Verb);
+            Assert.AreEqual("is_not", fact.Verb);
         }
 
         [TestMethod]
         public void IsSatisfiedByValue()
         {
-            IsFact fact = new IsFact("Temperature", 38);
-            Assert.IsTrue(fact.IsSatisfied(38));
+            IsNotFact fact = new IsNotFact("Temperature", 38);
+            Assert.IsTrue(fact.IsSatisfied(30));
         }
 
         [TestMethod]
         public void IsNotSatisfiedByValue()
         {
-            IsFact fact = new IsFact("Temperature", 38);
-            Assert.IsFalse(fact.IsSatisfied(30));
+            IsNotFact fact = new IsNotFact("Temperature", 38);
+            Assert.IsFalse(fact.IsSatisfied(38));
         }
 
         [TestMethod]
         public void IsSatisfiedByContext()
         {
-            IsFact fact = new IsFact("Temperature", 38);
+            IsNotFact fact = new IsNotFact("Temperature", 38);
             Context context = new Context();
-            context.SetValue("Temperature", 38);
+            context.SetValue("Temperature", 30);
             Assert.IsTrue(fact.IsSatisfied(context));
         }
 
         [TestMethod]
         public void IsNotSatisfiedByContext()
         {
-            IsFact fact = new IsFact("Temperature", 38);
+            IsNotFact fact = new IsNotFact("Temperature", 38);
             Context context = new Context();
+            context.SetValue("Temperature", 38);
             Assert.IsFalse(fact.IsSatisfied(context));
         }
 
         [TestMethod]
-        public void IsNotSatisfiedByNull()
+        public void IsSatisfiedByNull()
         {
-            IsFact fact = new IsFact("Temperature", 38);
-            Assert.IsFalse(fact.IsSatisfied((object)null));
+            IsNotFact fact = new IsNotFact("Temperature", 38);
+            Assert.IsTrue(fact.IsSatisfied((object) null));
         }
 
         [TestMethod]
-        public void IsSatisfiedByNullWhenNull()
+        public void IsNotSatisfiedByNullWhenNull()
         {
-            IsFact fact = new IsFact("Temperature", null);
-            Assert.IsTrue(fact.IsSatisfied((object)null));
+            IsNotFact fact = new IsNotFact("Temperature", null);
+            Assert.IsFalse(fact.IsSatisfied((object)null));
         }
 
         [TestMethod]
         public void CompareTwoEqualFacts()
         {
-            IsFact fact1 = new IsFact("Temperature", 38);
-            IsFact fact2 = new IsFact("Temperature", 38);
+            IsNotFact fact1 = new IsNotFact("Temperature", 38);
+            IsNotFact fact2 = new IsNotFact("Temperature", 38);
 
             Assert.AreEqual(fact1, fact2);
             Assert.AreEqual(fact1.GetHashCode(), fact2.GetHashCode());
@@ -78,8 +79,8 @@ namespace AjRools.Expert.Tests.Facts
         [TestMethod]
         public void CompareTwoEqualFactsWithNullValue()
         {
-            IsFact fact1 = new IsFact("Temperature", null);
-            IsFact fact2 = new IsFact("Temperature", null);
+            IsNotFact fact1 = new IsNotFact("Temperature", null);
+            IsNotFact fact2 = new IsNotFact("Temperature", null);
 
             Assert.AreEqual(fact1, fact2);
             Assert.AreEqual(fact1.GetHashCode(), fact2.GetHashCode());
@@ -88,8 +89,8 @@ namespace AjRools.Expert.Tests.Facts
         [TestMethod]
         public void CompareTwoFactsWithDifferentValues()
         {
-            IsFact fact1 = new IsFact("Temperature", 38);
-            IsFact fact2 = new IsFact("Temperature", 40);
+            IsNotFact fact1 = new IsNotFact("Temperature", 38);
+            IsNotFact fact2 = new IsNotFact("Temperature", 40);
 
             Assert.AreNotEqual(fact1, fact2);
         }
@@ -97,8 +98,8 @@ namespace AjRools.Expert.Tests.Facts
         [TestMethod]
         public void CompareTwoFactsWithDifferentNames()
         {
-            IsFact fact1 = new IsFact("Temperature", 38);
-            IsFact fact2 = new IsFact("Age", 38);
+            IsNotFact fact1 = new IsNotFact("Temperature", 38);
+            IsNotFact fact2 = new IsNotFact("Age", 38);
 
             Assert.AreNotEqual(fact1, fact2);
         }
@@ -106,8 +107,8 @@ namespace AjRools.Expert.Tests.Facts
         [TestMethod]
         public void CompareTwoFactsWithDifferentVerbs()
         {
-            IsFact fact1 = new IsFact("Temperature", 38);
-            IsNotFact fact2 = new IsNotFact("Temperature", 38);
+            IsNotFact fact1 = new IsNotFact("Temperature", 38);
+            IsFact fact2 = new IsFact("Temperature", 38);
 
             Assert.AreNotEqual(fact1, fact2);
         }
@@ -115,7 +116,7 @@ namespace AjRools.Expert.Tests.Facts
         [TestMethod]
         public void CompareFactWithObject()
         {
-            IsFact fact = new IsFact("Temperature", 38);
+            IsNotFact fact = new IsNotFact("Temperature", 38);
 
             Assert.AreNotEqual(fact, 38);
         }
@@ -123,7 +124,7 @@ namespace AjRools.Expert.Tests.Facts
         [TestMethod]
         public void CompareFactWithNull()
         {
-            IsFact fact = new IsFact("Temperature", 38);
+            IsNotFact fact = new IsNotFact("Temperature", 38);
 
             Assert.IsFalse(fact.Equals(null));
         }
