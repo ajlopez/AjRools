@@ -38,5 +38,20 @@ namespace AjRools.Expert.Tests.Rules
 
             Assert.IsTrue(rule.IsReadyToFire(world));
         }
+
+        [TestMethod]
+        public void RuleIsNotReadyToFire()
+        {
+            Rule rule = new Rule(new Fact[] {
+                new IsFact("Temperature", 40),
+                new IsFact("Age", 50)
+            }, null);
+
+            World world = new World();
+            world.AssertFact(new IsFact("Age", 60));
+            world.AssertFact(new IsFact("Temperature", 40));
+
+            Assert.IsFalse(rule.IsReadyToFire(world));
+        }
     }
 }
