@@ -43,6 +43,7 @@
     <Compile Include="Expressions\VariableExpressionTests.cs" />
     <Compile Include="Facts\IsFactTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\RuleTests.cs" />
     <Compile Include="WorldTests.cs" />
   </ItemGroup>
   <ItemGroup>
