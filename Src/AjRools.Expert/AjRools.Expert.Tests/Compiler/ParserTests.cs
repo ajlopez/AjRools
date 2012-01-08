@@ -93,5 +93,21 @@ namespace AjRools.Expert.Tests.Compiler
             Parser parser = new Parser("rule\r\nwhen\r\na is 48 c");
             MyAssert.Throws<LexerException>(() => parser.ParseRule(), "Expected End of Line/Input");
         }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleRule.txt")]
+        public void ParseSimpleRuleFile()
+        {
+            Parser parser = new Parser(new StreamReader("SimpleRule.txt"));
+
+            Rule rule = parser.ParseRule();
+
+            Assert.IsNotNull(rule);
+
+            Assert.IsTrue(rule.Conditions.Contains(new IsFact("Temperature", 39)));
+            Assert.IsTrue(rule.Assertions.Contains(new IsFact("HasFever", true)));
+
+            Assert.IsNull(parser.ParseRule());
+        }
     }
 }

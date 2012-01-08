@@ -31,21 +31,24 @@
 
         public Rule ParseRule()
         {
-            this.ParseName("rule");
-            this.ParseEndOfLine();
+            this.SkipBlankLines();
+            Token token = this.NextToken();
 
-            this.ParseName("when");
-            this.ParseEndOfLine();
+            if (token == null)
+                return null;
+
+            this.PushToken(token);
+            this.ParseWordLine("rule");
+
+            this.ParseWordLine("when");
 
             IList<Fact> conditions = this.ParseFacts();
 
-            this.ParseName("then");
-            this.ParseEndOfLine();
+            this.ParseWordLine("then");
 
             IList<Fact> assertions = this.ParseFacts();
 
-            this.ParseName("end");
-            this.ParseEndOfLine();
+            this.ParseWordLine("end");
 
             return new Rule(conditions, assertions);
         }
@@ -118,6 +121,23 @@
                 throw new LexerException(string.Format("Expected '{0}'", name));
         }
 
+        private void ParseWordLine(string word)
+        {
+            this.SkipBlankLines();
+            this.ParseName(word);
+            this.ParseEndOfLine();
+        }
+
+        private void SkipBlankLines()
+        {
+            Token token;
+
+            for (token = this.NextToken(); token != null && token.Type == TokenType.EndOfLine; token = this.NextToken())
+                ;
+
+            this.PushToken(token);
+        }
+
         private void ParseEndOfLine()
         {
             Token token = this.NextToken();
@@ -140,6 +160,11 @@
         private void PushToken(string name)
         {
             this.tokens.Push(new Token(name, TokenType.Name));
+        }
+
+        private void PushToken(Token token)
+        {
+            this.tokens.Push(token);
         }
     }
 }
