@@ -12,7 +12,7 @@ namespace AjRools.Expert.Tests.Rules
     public class RuleTests
     {
         [TestMethod]
-        public void RuleIsNotReadyInEmptyWorld()
+        public void RuleNotFireInEmptyWorld()
         {
             Rule rule = new Rule(new Fact[] {
                 new IsFact("Temperature", 40),
@@ -21,26 +21,29 @@ namespace AjRools.Expert.Tests.Rules
 
             World world = new World();
 
-            Assert.IsFalse(rule.IsReadyToFire(world));
+            Assert.IsFalse(rule.FireIfReady(world));
         }
 
         [TestMethod]
-        public void RuleIsReadyToFire()
+        public void RuleFire()
         {
             Rule rule = new Rule(new Fact[] {
                 new IsFact("Temperature", 40),
                 new IsFact("Age", 50)
-            }, null);
+            }, new Fact[] {
+                new IsFact("HasFever", true)
+            });
 
             World world = new World();
             world.AssertFact(new IsFact("Age", 50));
             world.AssertFact(new IsFact("Temperature", 40));
 
-            Assert.IsTrue(rule.IsReadyToFire(world));
+            Assert.IsTrue(rule.FireIfReady(world));
+            Assert.IsTrue(world.IsAFact(new IsFact("HasFever", true)));
         }
 
         [TestMethod]
-        public void RuleIsNotReadyToFire()
+        public void RuleNotFire()
         {
             Rule rule = new Rule(new Fact[] {
                 new IsFact("Temperature", 40),
@@ -51,7 +54,7 @@ namespace AjRools.Expert.Tests.Rules
             world.AssertFact(new IsFact("Age", 60));
             world.AssertFact(new IsFact("Temperature", 40));
 
-            Assert.IsFalse(rule.IsReadyToFire(world));
+            Assert.IsFalse(rule.FireIfReady(world));
         }
     }
 }

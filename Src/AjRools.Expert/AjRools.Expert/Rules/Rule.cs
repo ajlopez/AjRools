@@ -17,7 +17,23 @@
             this.assertions = assertions;
         }
 
-        public bool IsReadyToFire(World world)
+        public bool FireIfReady(World world)
+        {
+            if (!this.IsReadyToFire(world))
+                return false;
+
+            this.Fire(world);
+
+            return true;
+        }
+
+        private void Fire(World world)
+        {
+            foreach (var assertion in this.assertions)
+                world.AssertFact(assertion);
+        }
+
+        private bool IsReadyToFire(World world)
         {
             foreach (var condition in this.conditions)
                 if (!world.IsAFact(condition))
