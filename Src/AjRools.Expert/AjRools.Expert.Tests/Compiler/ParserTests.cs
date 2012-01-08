@@ -24,5 +24,20 @@ namespace AjRools.Expert.Tests.Compiler
             Assert.IsTrue(rule.Conditions.Contains(new IsFact("Temperature", 39)));
             Assert.IsTrue(rule.Assertions.Contains(new IsFact("HasFever", true)));
         }
+
+        [TestMethod]
+        public void RaiseWhenNoRule()
+        {
+            Parser parser = new Parser("foo");
+            MyAssert.Throws<LexerException>(() => parser.ParseRule(),
+            "Expected 'rule'");
+        }
+
+        [TestMethod]
+        public void RaiseWhenTwoManyWordsInCondition()
+        {
+            Parser parser = new Parser("rule\r\nwhen\r\na is 48 c");
+            MyAssert.Throws<LexerException>(() => parser.ParseRule(), "Expected End of Line/Input");
+        }
     }
 }

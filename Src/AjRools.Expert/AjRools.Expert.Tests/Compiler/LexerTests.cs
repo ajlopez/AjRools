@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AjRools.Expert.Compiler;
+using AjRools.Expert.Tests;
 
 namespace AjLang.Tests.Compiler
 {
@@ -125,19 +126,19 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
-        [ExpectedException(typeof(LexerException), "Unexpected '['")]
         public void RaiseWhenInvalidCharacter()
         {
             Lexer lexer = new Lexer("[");
-            lexer.NextToken();
+            MyAssert.Throws<LexerException>(() => lexer.NextToken(),
+                "Unexpected '['");
         }
 
         [TestMethod]
-        [ExpectedException(typeof(LexerException), "Unclosed String")]
         public void RaiseWhenUnclosedString()
         {
             Lexer lexer = new Lexer("\"foo");
-            lexer.NextToken();
+            MyAssert.Throws<LexerException>(() => lexer.NextToken(),
+                "Unclosed String");
         }
 
         [TestMethod]
