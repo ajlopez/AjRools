@@ -83,7 +83,7 @@
             Token token = this.NextToken();
 
             if (token == null)
-                throw new LexerException("Unexpected End Of Input");
+                throw new LexerException("Unexpected End of Input");
 
             if (token.Type != TokenType.Name)
                 throw new LexerException("Expected Name");
@@ -96,7 +96,7 @@
             Token token = this.NextToken();
 
             if (token == null)
-                throw new LexerException("Unexpected End Of Input");
+                throw new LexerException("Unexpected End of Input");
 
             if (token.Type == TokenType.String)
                 return token.Value;
@@ -122,7 +122,10 @@
         {
             Token token = this.NextToken();
 
-            if (token != null && token.Type != TokenType.EndOfLine)
+            if (token == null)
+                return;
+
+            if (token.Type != TokenType.EndOfLine)
                 throw new LexerException("Expected End of Line/Input");
         }
 

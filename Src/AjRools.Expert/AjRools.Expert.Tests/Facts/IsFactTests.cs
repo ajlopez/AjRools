@@ -17,6 +17,7 @@ namespace AjRools.Expert.Tests.Facts
 
             Assert.AreEqual("Temperature", fact.Name);
             Assert.AreEqual(38, fact.Value);
+            Assert.AreEqual("is", fact.Verb);
         }
 
         [TestMethod]
@@ -53,6 +54,15 @@ namespace AjRools.Expert.Tests.Facts
         {
             IsFact fact1 = new IsFact("Temperature", 38);
             IsFact fact2 = new IsFact("Age", 38);
+
+            Assert.AreNotEqual(fact1, fact2);
+        }
+
+        [TestMethod]
+        public void CompareTwoFactsWithDifferentVerbs()
+        {
+            IsFact fact1 = new IsFact("Temperature", 38);
+            NameVerbValueFact fact2 = new NameVerbValueFact("Temperature", "is_not", 38);
 
             Assert.AreNotEqual(fact1, fact2);
         }
