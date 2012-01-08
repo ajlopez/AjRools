@@ -85,6 +85,22 @@ namespace AjRools.Expert.Tests.Compiler
         }
 
         [TestMethod]
+        public void RaiseWhenConditionIsAtLastPosition()
+        {
+            Parser parser = new Parser("rule\r\nwhen\r\na");
+            MyAssert.Throws<LexerException>(() => parser.ParseRule(),
+            "Unexpected End of Input");
+        }
+
+        [TestMethod]
+        public void RaiseWhenVerbIsANumber()
+        {
+            Parser parser = new Parser("rule\r\nwhen\r\na 1 b\r\nthen\r\na\r\nend");
+            MyAssert.Throws<LexerException>(() => parser.ParseRule(),
+            "Unexpected '1'");
+        }
+
+        [TestMethod]
         public void RaiseWhenUnexpectedValueInCondition()
         {
             Parser parser = new Parser("rule\r\nwhen\r\na is <=");

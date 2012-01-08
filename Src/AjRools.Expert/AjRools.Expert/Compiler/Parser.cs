@@ -75,7 +75,10 @@
 
             Token token = this.NextToken();
 
-            if (token == null || token.Type == TokenType.EndOfLine)
+            if (token == null)
+                throw new LexerException("Unexpected End of Input");
+
+            if (token.Type == TokenType.EndOfLine)
                 return new IsFact(name, true);
 
             if (token.Type != TokenType.Name || (token.Value != "is" && token.Value != "is_not"))
