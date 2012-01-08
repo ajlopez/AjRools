@@ -49,8 +49,10 @@
     <Compile Include="Expressions\ConstantExpression.cs" />
     <Compile Include="Expressions\IExpression.cs" />
     <Compile Include="Expressions\VariableExpression.cs" />
+    <Compile Include="Facts\Fact.cs" />
     <Compile Include="Facts\IsFact.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

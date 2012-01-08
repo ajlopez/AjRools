@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class IsFact
+    public class IsFact : Fact
     {
         private string name;
         private object value;
