@@ -52,6 +52,13 @@ namespace AjRools.Expert.Tests
         }
 
         [TestMethod]
+        public void IsSatisfiedByWorldContext()
+        {
+            Fact fact = new IsNotFact("Temperature", 20);
+            Assert.IsTrue(this.world.IsAFact(fact));
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void RaiseWhenRetractFalseFact()
         {
