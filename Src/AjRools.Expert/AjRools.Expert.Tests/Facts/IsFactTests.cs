@@ -70,7 +70,7 @@ namespace AjRools.Expert.Tests.Facts
         {
             IsFact fact = new IsFact("Temperature", 38);
 
-            Assert.AreNotEqual(fact, null);
+            Assert.IsFalse(fact.Equals(null));
         }
     }
 }

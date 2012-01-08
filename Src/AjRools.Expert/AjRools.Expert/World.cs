@@ -20,6 +20,9 @@
 
         public void RetractFact(Fact fact)
         {
+            if (!this.facts.Contains(fact))
+                throw new InvalidOperationException();
+
             this.facts.Remove(fact);
         }
 

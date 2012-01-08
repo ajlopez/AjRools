@@ -50,5 +50,13 @@ namespace AjRools.Expert.Tests
             this.world.RetractFact(fact);
             Assert.IsFalse(this.world.IsAFact(fact));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void RaiseWhenRetractFalseFact()
+        {
+            Fact fact = new IsFact("Age", 40);
+            this.world.RetractFact(fact);
+        }
     }
 }
