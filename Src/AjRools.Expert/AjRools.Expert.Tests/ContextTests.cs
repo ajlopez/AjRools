@@ -22,5 +22,12 @@ namespace AjRools.Expert.Tests
         {
             Assert.IsNull(this.context.GetValue("Foo"));
         }
+
+        [TestMethod]
+        public void SetAndGetValue()
+        {
+            this.context.SetValue("One", 1);
+            Assert.AreEqual(1, this.context.GetValue("One"));
+        }
     }
 }
