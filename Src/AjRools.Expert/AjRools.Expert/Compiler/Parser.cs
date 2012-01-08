@@ -73,12 +73,24 @@
                 return null;
             }
 
-            this.ParseName("is");
+            Token token = this.NextToken();
+
+            if (token == null || token.Type == TokenType.EndOfLine)
+                return new IsFact(name, true);
+
+            if (token.Type != TokenType.Name || (token.Value != "is" && token.Value != "is_not"))
+                throw new LexerException(string.Format("Unexpected '{0}'", token.Value));
+
+            string verb = token.Value;
+
             object value = this.ParseValue();
 
             this.ParseEndOfLine();
 
-            return new IsFact(name, value);
+            if (verb == "is")
+                return new IsFact(name, value);
+            else 
+                return new IsNotFact(name, value);
         }
 
         private string ParseName()

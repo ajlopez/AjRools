@@ -27,6 +27,19 @@ namespace AjRools.Expert.Tests.Compiler
         }
 
         [TestMethod]
+        public void ParseSimpleRuleWithImplicitIsTrue()
+        {
+            Parser parser = new Parser("rule\r\nwhen\r\nTemperature is 39\r\nthen\r\nHasFever\r\nend");
+
+            Rule rule = parser.ParseRule();
+
+            Assert.IsNotNull(rule);
+
+            Assert.IsTrue(rule.Conditions.Contains(new IsFact("Temperature", 39)));
+            Assert.IsTrue(rule.Assertions.Contains(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
         public void ParseRuleWithString()
         {
             Parser parser = new Parser("rule\r\nwhen\r\nTemperatureLevel is \"High\"\r\nthen\r\nHasFever is true\r\nend\r\n");
@@ -61,6 +74,14 @@ namespace AjRools.Expert.Tests.Compiler
             Parser parser = new Parser("rule\r\nwhen\r\na is");
             MyAssert.Throws<LexerException>(() => parser.ParseRule(),
             "Unexpected End of Input");
+        }
+
+        [TestMethod]
+        public void RaiseWhenUnknownVerb()
+        {
+            Parser parser = new Parser("rule\r\nwhen\r\na foo b");
+            MyAssert.Throws<LexerException>(() => parser.ParseRule(),
+            "Unexpected 'foo'");
         }
 
         [TestMethod]
@@ -105,6 +126,22 @@ namespace AjRools.Expert.Tests.Compiler
             Assert.IsNotNull(rule);
 
             Assert.IsTrue(rule.Conditions.Contains(new IsFact("Temperature", 39)));
+            Assert.IsTrue(rule.Assertions.Contains(new IsFact("HasFever", true)));
+
+            Assert.IsNull(parser.ParseRule());
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleRuleWithIsNotCondition.txt")]
+        public void ParseSimpleRuleFileWithIsNotCondition()
+        {
+            Parser parser = new Parser(new StreamReader("SimpleRuleWithIsNotCondition.txt"));
+
+            Rule rule = parser.ParseRule();
+
+            Assert.IsNotNull(rule);
+
+            Assert.IsTrue(rule.Conditions.Contains(new IsNotFact("Temperature", 39)));
             Assert.IsTrue(rule.Assertions.Contains(new IsFact("HasFever", true)));
 
             Assert.IsNull(parser.ParseRule());

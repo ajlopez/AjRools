@@ -1,0 +1,7 @@
+﻿rule
+when
+	Temperature is_not 39
+then
+	HasFever is true
+end
+

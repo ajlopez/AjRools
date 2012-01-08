@@ -61,7 +61,7 @@
             string value = ch.ToString();
             int ich;
 
-            for (ich = this.NextChar(); ich != -1 && char.IsLetterOrDigit((char)ich); ich = this.reader.Read())
+            for (ich = this.NextChar(); ich != -1 && (char.IsLetterOrDigit((char)ich) || ((char)ich)=='_'); ich = this.reader.Read())
                 value += (char)ich;
 
             if (ich != -1)

@@ -25,6 +25,19 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void GetNameWithUnderscore()
+        {
+            Lexer lexer = new Lexer("is_not");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("is_not", token.Value);
+            Assert.AreEqual(TokenType.Name, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
         public void GetNameWithSpaces()
         {
             Lexer lexer = new Lexer("  foo   ");
