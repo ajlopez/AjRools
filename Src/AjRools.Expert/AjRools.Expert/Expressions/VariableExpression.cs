@@ -5,20 +5,18 @@
     using System.Linq;
     using System.Text;
 
-    public class ConstantExpression : IExpression
+    public class VariableExpression
     {
-        private object value;
+        private string name;
 
-        public ConstantExpression(object value)
+        public VariableExpression(string name)
         {
-            this.value = value;
+            this.name = name;
         }
-
-        public object Value { get { return this.value; } }
 
         public object Evaluate(Context context)
         {
-            return this.value;
+            return context.GetValue(this.name);
         }
     }
 }
