@@ -122,6 +122,19 @@
 
         private int NextChar()
         {
+            int ich = this.ReadChar();
+
+            while (ich != -1 && ((char)ich) == '#')
+            {
+                while (ich != -1 && ((char)ich) != '\r' && ((char)ich) != '\n')
+                    ich = this.ReadChar();
+            }
+
+            return ich;
+        }
+
+        private int ReadChar()
+        {
             if (this.characters.Count > 0)
                 return this.characters.Pop();
 

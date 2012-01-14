@@ -25,6 +25,63 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void GetNameAndSkipComment()
+        {
+            Lexer lexer = new Lexer("foo # this is a name");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("foo", token.Value);
+            Assert.AreEqual(TokenType.Name, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
+        public void SkipCommentAndGetEndOfLineName()
+        {
+            Lexer lexer = new Lexer("# this is a name\r\nfoo");
+            
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.Type);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("foo", token.Value);
+            Assert.AreEqual(TokenType.Name, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
+        public void GetNameSkipCommentAndGetEndOfLineName()
+        {
+            Lexer lexer = new Lexer("foo# this is a name\r\nbar");
+
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("foo", token.Value);
+            Assert.AreEqual(TokenType.Name, token.Type);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(TokenType.EndOfLine, token.Type);
+
+            token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual("bar", token.Value);
+            Assert.AreEqual(TokenType.Name, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
         public void GetNameWithUnderscore()
         {
             Lexer lexer = new Lexer("is_not");
