@@ -14,6 +14,11 @@
         private Context context = new Context();
 
         private Queue<Fact> asserted = new Queue<Fact>();
+        private Queue<Fact> retracted = new Queue<Fact>();
+
+        private IList<Rule> fired;
+        private IList<Rule> notfired;
+        private IList<Rule> nottested = new List<Rule>();
 
         public void AssertFact(Fact fact)
         {
@@ -48,6 +53,7 @@
                     throw new InvalidOperationException();
 
                 this.context.SetValue(isfact.Name, null);
+                this.retracted.Enqueue(fact);
                 return;
             }
 
@@ -55,6 +61,7 @@
                 throw new InvalidOperationException();
 
             this.facts.Remove(fact);
+            this.retracted.Enqueue(fact);
         }
 
         public bool IsAFact(Fact fact)
@@ -70,12 +77,36 @@
         public void AddRule(Rule rule)
         {
             this.rules.Add(rule);
+            if (this.notfired != null)
+                this.nottested.Add(rule);
         }
 
         public void Run()
         {
+            if (this.fired == null)
+            {
+                this.fired = new List<Rule>();
+                this.notfired = new List<Rule>(this.rules);
+            }
+
+            while (this.retracted.Count > 0)
+                this.ProcessRetractedFact(this.retracted.Dequeue());
+
+            this.ProcessNotTestedRules();
+
             while (this.asserted.Count > 0)
                 this.ProcessAssertedFact(this.asserted.Dequeue());
+        }
+
+        private void ProcessNotTestedRules()
+        {
+            foreach (var rule in this.nottested)
+                if (rule.FireIfReady(this))
+                    this.fired.Add(rule);
+                else
+                    this.notfired.Add(rule);
+
+            this.nottested.Clear();
         }
 
         private void ProcessAssertedFact(Fact fact)
@@ -89,9 +120,43 @@
 
         private void ProcessAssertedFact(NameVerbValueFact fact)
         {
-            foreach (var rule in this.rules)
+            IList<Rule> newfired = new List<Rule>();
+
+            foreach (var rule in this.notfired)
                 if (rule.Conditions.Any(c => c is NameVerbValueFact && ((NameVerbValueFact)c).Name == fact.Name))
-                    rule.FireIfReady(this);
+                    if (rule.FireIfReady(this))
+                        newfired.Add(rule);
+
+            foreach (var rule in newfired)
+            {
+                this.notfired.Remove(rule);
+                this.fired.Add(rule);
+            }
+        }
+
+        private void ProcessRetractedFact(Fact fact)
+        {
+            if (fact is NameVerbValueFact)
+            {
+                this.ProcessRetractedFact((NameVerbValueFact)fact);
+                return;
+            }
+        }
+
+        private void ProcessRetractedFact(NameVerbValueFact fact)
+        {
+            IList<Rule> newretracted = new List<Rule>();
+
+            foreach (var rule in this.fired)
+                if (rule.Conditions.Any(c => c is NameVerbValueFact && ((NameVerbValueFact)c).Name == fact.Name))
+                    if (rule.RetractIfNotReady(this))
+                        newretracted.Add(rule);
+
+            foreach (var rule in newretracted)
+            {
+                this.fired.Remove(rule);
+                this.notfired.Add(rule);
+            }
         }
     }
 }

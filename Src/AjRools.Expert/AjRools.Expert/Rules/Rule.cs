@@ -31,10 +31,26 @@
             return true;
         }
 
+        public bool RetractIfNotReady(World world)
+        {
+            if (this.IsReadyToFire(world))
+                return false;
+
+            this.Retract(world);
+
+            return true;
+        }
+
         private void Fire(World world)
         {
             foreach (var assertion in this.assertions)
                 world.AssertFact(assertion);
+        }
+
+        private void Retract(World world)
+        {
+            foreach (var assertion in this.assertions)
+                world.RetractFact(assertion);
         }
 
         private bool IsReadyToFire(World world)

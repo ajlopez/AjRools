@@ -128,6 +128,54 @@ namespace AjRools.Expert.Tests
         }
 
         [TestMethod]
+        [DeploymentItem("Files\\SimpleRule.txt")]
+        public void AssertFactRunAddRuleRunAndGetNewFact()
+        {
+            this.world.AssertFact(new IsFact("Temperature", 39));
+            this.world.Run();
+            this.AddRule("SimpleRule.txt");
+            this.world.Run();
+            Assert.IsTrue(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleRule.txt")]
+        public void AssertFactRunAddRuleRunAndGetNoFact()
+        {
+            this.world.AssertFact(new IsFact("Temperature", 36));
+            this.world.Run();
+            this.AddRule("SimpleRule.txt");
+            this.world.Run();
+            Assert.IsFalse(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleRule.txt")]
+        public void AddRuleAssertFactRunRetractFactRunAndGetNoFact()
+        {
+            this.AddRule("SimpleRule.txt");
+            this.world.AssertFact(new IsFact("Temperature", 39));
+            this.world.Run();
+            Assert.IsTrue(this.world.IsAFact(new IsFact("HasFever", true)));
+            this.world.RetractFact(new IsFact("Temperature", 39));
+            this.world.Run();
+            Assert.IsFalse(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleRule.txt")]
+        public void AddRuleAssertFactRunAssertAnotherFactRunAndKeepFact()
+        {
+            this.AddRule("SimpleRule.txt");
+            this.world.AssertFact(new IsFact("Temperature", 39));
+            this.world.Run();
+            Assert.IsTrue(this.world.IsAFact(new IsFact("HasFever", true)));
+            this.world.AssertFact(new IsFact("Temperature", 40));
+            this.world.Run();
+            Assert.IsTrue(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
         [DeploymentItem("Files\\SimpleComparisonRule.txt")]
         public void AddRuleWithComparisonAssertFactRunAndGetNewFact()
         {
@@ -153,6 +201,18 @@ namespace AjRools.Expert.Tests
         {
             this.AddRule("SimpleComparisonRule.txt");
             this.world.AssertFact(new IsFact("Age", 33));
+            this.world.Run();
+            Assert.IsFalse(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleComparisonRule.txt")]
+        public void AddRuleUnrelatedFactRunRetractRunAndNoFire()
+        {
+            this.AddRule("SimpleComparisonRule.txt");
+            this.world.AssertFact(new IsFact("Age", 33));
+            this.world.Run();
+            this.world.RetractFact(new IsFact("Age", 33));
             this.world.Run();
             Assert.IsFalse(this.world.IsAFact(new IsFact("HasFever", true)));
         }
