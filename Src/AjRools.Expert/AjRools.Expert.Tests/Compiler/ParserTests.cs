@@ -53,6 +53,19 @@ namespace AjRools.Expert.Tests.Compiler
         }
 
         [TestMethod]
+        public void ParseRuleWithComparisonFact()
+        {
+            Parser parser = new Parser("rule\r\nwhen\r\nTemperatureLevel >= 38\r\nthen\r\nHasFever is true\r\nend\r\n");
+
+            Rule rule = parser.ParseRule();
+
+            Assert.IsNotNull(rule);
+
+            Assert.IsTrue(rule.Conditions.Contains(new ComparisonFact("TemperatureLevel", Comparison.GreaterEqual, 38)));
+            Assert.IsTrue(rule.Assertions.Contains(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
         public void RaiseWhenNoRule()
         {
             Parser parser = new Parser(new StringReader("foo"));

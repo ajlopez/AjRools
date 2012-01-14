@@ -10,6 +10,14 @@
 
     public class Parser
     {
+        private static IDictionary<string, Comparison> comparisonVerbs = new Dictionary<string, Comparison>()
+        {
+            { ">", Comparison.Greater },
+            { "<", Comparison.Less },
+            { ">=", Comparison.GreaterEqual },
+            { "<=", Comparison.LessEqual }
+        };
+
         private Lexer lexer;
 
         private Stack<Token> tokens = new Stack<Token>();
@@ -82,7 +90,8 @@
                 return new IsFact(name, true);
 
             if (token.Type != TokenType.Name || (token.Value != "is" && token.Value != "is_not"))
-                throw new LexerException(string.Format("Unexpected '{0}'", token.Value));
+                if (token.Type != TokenType.Operator || !comparisonVerbs.ContainsKey(token.Value))
+                    throw new LexerException(string.Format("Unexpected '{0}'", token.Value));
 
             string verb = token.Value;
 
@@ -92,8 +101,10 @@
 
             if (verb == "is")
                 return new IsFact(name, value);
-            else 
+            else if (verb == "is_not")
                 return new IsNotFact(name, value);
+            else
+                return new ComparisonFact(name, comparisonVerbs[verb], value);
         }
 
         private string ParseName()
