@@ -54,6 +54,8 @@
     <Compile Include="Expressions\ConstantExpression.cs" />
     <Compile Include="Expressions\IExpression.cs" />
     <Compile Include="Expressions\VariableExpression.cs" />
+    <Compile Include="Facts\Comparison.cs" />
+    <Compile Include="Facts\ComparisonFact.cs" />
     <Compile Include="Facts\IsNotFact.cs" />
     <Compile Include="Facts\Fact.cs" />
     <Compile Include="Facts\IsFact.cs" />
