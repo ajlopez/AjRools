@@ -1,0 +1,43 @@
+﻿using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using AjRools.Expert.Compiler;
+using System.IO;
+using AjRools.Expert.Facts;
+
+namespace AjRools.Expert.Tests
+{
+    [TestClass]
+    [DeploymentItem("Files\\TwoRules.txt")]
+    public class TwoRulesTests
+    {
+        private World world;
+        private Fact hasfever;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            this.world = new World();
+            this.hasfever = new IsFact("HasFever", true);
+
+            Parser parser = new Parser(new StreamReader("TwoRules.txt"));
+
+            foreach (var rule in parser.ParseRules())
+                this.world.AddRule(rule);
+        }
+
+        [TestMethod]
+        public void RunNoFever()
+        {
+            this.world.Run();
+            Assert.IsFalse(this.HasFever());
+        }
+
+        private bool HasFever()
+        {
+            return this.world.IsAFact(this.hasfever);
+        }
+    }
+}
