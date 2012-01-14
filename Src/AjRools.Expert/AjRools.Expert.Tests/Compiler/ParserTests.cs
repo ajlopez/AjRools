@@ -191,5 +191,20 @@ namespace AjRools.Expert.Tests.Compiler
 
             Assert.IsNull(parser.ParseRule());
         }
+
+        [TestMethod]
+        [DeploymentItem("Files\\TwoRules.txt")]
+        public void ParseTwoRulesFile()
+        {
+            Parser parser = new Parser(new StreamReader("TwoRules.txt"));
+
+            IList<Rule> rules = parser.ParseRules();
+
+            Assert.IsNotNull(rules);
+
+            Assert.AreEqual(2, rules.Count);
+
+            Assert.IsNull(parser.ParseRules());
+        }
     }
 }

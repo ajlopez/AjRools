@@ -37,6 +37,29 @@
             this.lexer = lexer;
         }
 
+        public IList<Rule> ParseRules()
+        {
+            this.SkipBlankLines();
+
+            Token token = this.NextToken();
+
+            if (token == null)
+                return null;
+
+            this.PushToken(token);
+            this.ParseWordLine("rules");
+
+            IList<Rule> rules = new List<Rule>();
+
+            for (var rule = this.ParseRule(); rule != null; rule = this.ParseRule())
+                rules.Add(rule);
+
+            this.SkipBlankLines();
+            this.ParseWordLine("end");
+
+            return rules;
+        }
+
         public Rule ParseRule()
         {
             this.SkipBlankLines();
@@ -46,6 +69,10 @@
                 return null;
 
             this.PushToken(token);
+
+            if (token.Type == TokenType.Name && token.Value == "end")
+                return null;
+
             this.ParseWordLine("rule");
 
             this.ParseWordLine("when");
