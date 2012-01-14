@@ -175,5 +175,21 @@ namespace AjRools.Expert.Tests.Compiler
 
             Assert.IsNull(parser.ParseRule());
         }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleComparisonRule.txt")]
+        public void ParseSimpleConditionRule()
+        {
+            Parser parser = new Parser(new StreamReader("SimpleComparisonRule.txt"));
+
+            Rule rule = parser.ParseRule();
+
+            Assert.IsNotNull(rule);
+
+            Assert.IsTrue(rule.Conditions.Contains(new ComparisonFact("Temperature", Comparison.Greater, 37)));
+            Assert.IsTrue(rule.Assertions.Contains(new IsFact("HasFever", true)));
+
+            Assert.IsNull(parser.ParseRule());
+        }
     }
 }
