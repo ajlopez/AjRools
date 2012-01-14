@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AjRools.Expert.Facts;
+using AjRools.Expert.Compiler;
+using System.IO;
+using AjRools.Expert.Rules;
 
 namespace AjRools.Expert.Tests
 {
@@ -16,7 +19,7 @@ namespace AjRools.Expert.Tests
         public void Setup()
         {
             this.world = new World();
-            this.world.AssertFact(new IsFact("Temperature", 38));
+            this.world.AssertFact(new IsFact("Temperature", 36));
         }
 
         [TestMethod]
@@ -36,21 +39,21 @@ namespace AjRools.Expert.Tests
         [TestMethod]
         public void TrueFact()
         {
-            Fact fact = new IsFact("Temperature", 38);
+            Fact fact = new IsFact("Temperature", 36);
             Assert.IsTrue(this.world.IsAFact(fact));
         }
 
         [TestMethod]
         public void TrueComparisonFact()
         {
-            Fact fact = new ComparisonFact("Temperature", Comparison.GreaterEqual, 38);
+            Fact fact = new ComparisonFact("Temperature", Comparison.GreaterEqual, 36);
             Assert.IsTrue(this.world.IsAFact(fact));
         }
 
         [TestMethod]
         public void RetractAndTestFact()
         {
-            Fact fact = new IsFact("Temperature", 38);
+            Fact fact = new IsFact("Temperature", 36);
             this.world.RetractFact(fact);
             Assert.IsFalse(this.world.IsAFact(fact));
         }
@@ -58,7 +61,7 @@ namespace AjRools.Expert.Tests
         [TestMethod]
         public void AssertAndTestComparisonFact()
         {
-            Fact fact = new ComparisonFact("Temperature", Comparison.GreaterEqual, 38);
+            Fact fact = new ComparisonFact("Temperature", Comparison.GreaterEqual, 36);
             this.world.AssertFact(fact);
             Assert.IsTrue(this.world.IsAFact(fact));
         }
@@ -112,6 +115,53 @@ namespace AjRools.Expert.Tests
         {
             Fact fact = new ComparisonFact("Age", Comparison.Greater, 40);
             this.world.RetractFact(fact);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleRule.txt")]
+        public void AddRuleAssertFactRunAndGetNewFact()
+        {
+            this.AddRule("SimpleRule.txt");
+            this.world.AssertFact(new IsFact("Temperature", 39));
+            this.world.Run();
+            Assert.IsTrue(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleComparisonRule.txt")]
+        public void AddRuleWithComparisonAssertFactRunAndGetNewFact()
+        {
+            this.AddRule("SimpleComparisonRule.txt");
+            this.world.AssertFact(new IsFact("Temperature", 40));
+            this.world.Run();
+            Assert.IsTrue(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleComparisonRule.txt")]
+        public void AddRuleWithComparisonAssertFactRunAndNoFire()
+        {
+            this.AddRule("SimpleComparisonRule.txt");
+            this.world.AssertFact(new IsFact("Temperature", 36));
+            this.world.Run();
+            Assert.IsFalse(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleComparisonRule.txt")]
+        public void AddRuleUnrelatedFactRunAndNoFire()
+        {
+            this.AddRule("SimpleComparisonRule.txt");
+            this.world.AssertFact(new IsFact("Age", 33));
+            this.world.Run();
+            Assert.IsFalse(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        private void AddRule(string filename)
+        {
+            Parser parser = new Parser(new StreamReader(filename));
+            Rule rule = parser.ParseRule();
+            this.world.AddRule(rule);
         }
     }
 }
