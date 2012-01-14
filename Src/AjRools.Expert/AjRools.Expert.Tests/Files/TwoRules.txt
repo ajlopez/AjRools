@@ -1,5 +1,8 @@
-﻿rules
+﻿# Rules example
 
+rules
+
+# Rule for Child Fever
 rule
 	when
 		Temperature > 38
@@ -8,6 +11,7 @@ rule
 		HasFever is true
 end
 
+# Rule for Adult Fever
 rule
 	when
 		Temperature > 37
