@@ -108,6 +108,19 @@ namespace AjLang.Tests.Compiler
         }
 
         [TestMethod]
+        public void GetPeriodAsSeparator()
+        {
+            Lexer lexer = new Lexer(".");
+            Token token = lexer.NextToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(".", token.Value);
+            Assert.AreEqual(TokenType.Separator, token.Type);
+
+            Assert.IsNull(lexer.NextToken());
+        }
+
+        [TestMethod]
         public void GetGreaterOperator()
         {
             Lexer lexer = new Lexer(">");

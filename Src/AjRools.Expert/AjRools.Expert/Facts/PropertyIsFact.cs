@@ -6,7 +6,7 @@
     using System.Text;
     using System.Reflection;
 
-    public class PropertyIsFact
+    public class PropertyIsFact : Fact
     {
         private string name;
         private string property;

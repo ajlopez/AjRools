@@ -12,6 +12,7 @@
         String,
         Boolean,
         Operator,
+        Separator,
         EndOfLine
     }
 }

@@ -9,6 +9,7 @@
     public class Lexer
     {
         private static string[] operators = { ">", "<", ">=", "<=" };
+        private static string[] separators = { "." };
 
         private Stack<int> characters = new Stack<int>();
 
@@ -52,6 +53,9 @@
 
             if (operators.Any(op => op[0] == ch))
                 return this.NextOperator(ch);
+
+            if (separators.Any(sp => sp[0] == ch))
+                return this.NextSeparator(ch);
 
             throw new LexerException(string.Format("Unexpected '{0}'", ch));
         }
@@ -118,6 +122,25 @@
             }
 
             return new Token(ch.ToString(), TokenType.Operator);
+        }
+
+        private Token NextSeparator(char ch)
+        {
+            // TODO improve/fix algorithm, multicharacter operators
+            string value = ch.ToString();
+            int ich = this.NextChar();
+
+            if (ich != -1)
+            {
+                string value2 = value + (char)ich;
+
+                if (separators.Contains(value2))
+                    return new Token(value2, TokenType.Separator);
+
+                this.PushChar(ich);
+            }
+
+            return new Token(ch.ToString(), TokenType.Separator);
         }
 
         private int NextChar()

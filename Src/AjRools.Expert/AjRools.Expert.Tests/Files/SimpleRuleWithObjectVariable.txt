@@ -1,0 +1,8 @@
+﻿rule
+when
+	p is_a Patient
+	p.Temperature is 39
+then
+	p.HasFever is true
+end
+

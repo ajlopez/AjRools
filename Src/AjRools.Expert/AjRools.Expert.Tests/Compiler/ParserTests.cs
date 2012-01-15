@@ -206,5 +206,17 @@ namespace AjRools.Expert.Tests.Compiler
 
             Assert.IsNull(parser.ParseRules());
         }
+
+        [TestMethod]
+        [DeploymentItem("Files\\SimpleRuleWithObjectVariable.txt")]
+        public void ParseSimpleRuleWithObjectVariable()
+        {
+            Parser parser = new Parser(new StreamReader("SimpleRuleWithObjectVariable.txt"));
+
+            Rule rule = parser.ParseRule();
+
+            Assert.AreEqual(2, rule.Conditions.Count());
+            Assert.AreEqual(1, rule.Assertions.Count());
+        }
     }
 }

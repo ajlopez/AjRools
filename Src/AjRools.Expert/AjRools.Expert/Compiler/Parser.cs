@@ -116,7 +116,10 @@
             if (token.Type == TokenType.EndOfLine)
                 return new IsFact(name, true);
 
-            if (token.Type != TokenType.Name || (token.Value != "is" && token.Value != "is_not"))
+            if (token.Type == TokenType.Separator && token.Value == ".")
+                return this.ParsePropertyFact(name);
+
+            if (token.Type != TokenType.Name || (token.Value != "is" && token.Value != "is_not" && token.Value != "is_a"))
                 if (token.Type != TokenType.Operator || !comparisonVerbs.ContainsKey(token.Value))
                     throw new LexerException(string.Format("Unexpected '{0}'", token.Value));
 
@@ -130,8 +133,26 @@
                 return new IsFact(name, value);
             else if (verb == "is_not")
                 return new IsNotFact(name, value);
+            else if (verb == "is_a")
+                return new IsAFact(name, (string) value);
             else
                 return new ComparisonFact(name, comparisonVerbs[verb], value);
+        }
+
+        private Fact ParsePropertyFact(string name)
+        {
+            string property = this.ParseName();
+
+            string verb = this.ParseName();
+
+            if (verb != "is")
+                throw new LexerException(string.Format("Unexpected '{0}'", verb));
+
+            object value = this.ParseValue();
+
+            this.ParseEndOfLine();
+
+            return new PropertyIsFact(name, property, value);
         }
 
         private string ParseName()
@@ -162,6 +183,9 @@
 
             if (token.Type == TokenType.Integer)
                 return Int32.Parse(token.Value);
+
+            if (token.Type == TokenType.Name)
+                return token.Value;
 
             throw new LexerException(string.Format("Unexpected '{0}'", token.Value));
         }
