@@ -71,7 +71,7 @@
 
             NameVerbValueFact namefact = (NameVerbValueFact)fact;
 
-            return namefact.IsSatisfied(this.context);
+            return namefact.IsSatisfiedByContext(this.context);
         }
 
         public void AddRule(Rule rule)

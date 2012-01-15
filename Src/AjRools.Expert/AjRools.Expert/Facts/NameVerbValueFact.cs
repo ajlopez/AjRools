@@ -24,12 +24,12 @@
 
         public object Value { get { return this.value; } }
 
-        public bool IsSatisfied(Context context)
+        public bool IsSatisfiedByContext(Context context)
         {
-            return this.IsSatisfied(context.GetValue(this.name));
+            return this.IsSatisfiedByValue(context.GetValue(this.name));
         }
 
-        public abstract bool IsSatisfied(object value);
+        public abstract bool IsSatisfiedByValue(object value);
 
         public override bool Equals(object obj)
         {

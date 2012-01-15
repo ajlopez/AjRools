@@ -31,7 +31,7 @@
             this.comparison = comparison;
         }
 
-        public override bool IsSatisfied(object value)
+        public override bool IsSatisfiedByValue(object value)
         {
             if (value == null)
                 return false;

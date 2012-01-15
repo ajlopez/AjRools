@@ -24,14 +24,14 @@ namespace AjRools.Expert.Tests.Facts
         public void IsSatisfiedByValue()
         {
             IsNotFact fact = new IsNotFact("Temperature", 38);
-            Assert.IsTrue(fact.IsSatisfied(30));
+            Assert.IsTrue(fact.IsSatisfiedByValue(30));
         }
 
         [TestMethod]
         public void IsNotSatisfiedByValue()
         {
             IsNotFact fact = new IsNotFact("Temperature", 38);
-            Assert.IsFalse(fact.IsSatisfied(38));
+            Assert.IsFalse(fact.IsSatisfiedByValue(38));
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace AjRools.Expert.Tests.Facts
             IsNotFact fact = new IsNotFact("Temperature", 38);
             Context context = new Context();
             context.SetValue("Temperature", 30);
-            Assert.IsTrue(fact.IsSatisfied(context));
+            Assert.IsTrue(fact.IsSatisfiedByContext(context));
         }
 
         [TestMethod]
@@ -49,21 +49,21 @@ namespace AjRools.Expert.Tests.Facts
             IsNotFact fact = new IsNotFact("Temperature", 38);
             Context context = new Context();
             context.SetValue("Temperature", 38);
-            Assert.IsFalse(fact.IsSatisfied(context));
+            Assert.IsFalse(fact.IsSatisfiedByContext(context));
         }
 
         [TestMethod]
         public void IsSatisfiedByNull()
         {
             IsNotFact fact = new IsNotFact("Temperature", 38);
-            Assert.IsTrue(fact.IsSatisfied((object) null));
+            Assert.IsTrue(fact.IsSatisfiedByValue((object) null));
         }
 
         [TestMethod]
         public void IsNotSatisfiedByNullWhenNull()
         {
             IsNotFact fact = new IsNotFact("Temperature", null);
-            Assert.IsFalse(fact.IsSatisfied((object)null));
+            Assert.IsFalse(fact.IsSatisfiedByValue((object)null));
         }
 
         [TestMethod]

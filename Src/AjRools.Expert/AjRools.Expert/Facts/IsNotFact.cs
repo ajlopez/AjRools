@@ -12,7 +12,7 @@
         {
         }
 
-        public override bool IsSatisfied(object value)
+        public override bool IsSatisfiedByValue(object value)
         {
             if (this.Value == null)
                 return value != null;

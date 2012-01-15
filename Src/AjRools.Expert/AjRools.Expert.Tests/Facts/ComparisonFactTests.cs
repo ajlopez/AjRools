@@ -19,12 +19,12 @@ namespace AjRools.Expert.Tests.Facts
             Assert.AreEqual("<", fact.Verb);
             Assert.AreEqual(40, fact.Value);
 
-            Assert.IsTrue(fact.IsSatisfied(38));
-            Assert.IsTrue(fact.IsSatisfied(-10));
-            Assert.IsFalse(fact.IsSatisfied(40));
-            Assert.IsFalse(fact.IsSatisfied(42));
+            Assert.IsTrue(fact.IsSatisfiedByValue(38));
+            Assert.IsTrue(fact.IsSatisfiedByValue(-10));
+            Assert.IsFalse(fact.IsSatisfiedByValue(40));
+            Assert.IsFalse(fact.IsSatisfiedByValue(42));
 
-            Assert.IsFalse(fact.IsSatisfied((object)null));
+            Assert.IsFalse(fact.IsSatisfiedByValue((object)null));
         }
 
         [TestMethod]
@@ -36,12 +36,12 @@ namespace AjRools.Expert.Tests.Facts
             Assert.AreEqual("<=", fact.Verb);
             Assert.AreEqual(40, fact.Value);
 
-            Assert.IsTrue(fact.IsSatisfied(38));
-            Assert.IsTrue(fact.IsSatisfied(-10));
-            Assert.IsTrue(fact.IsSatisfied(40));
-            Assert.IsFalse(fact.IsSatisfied(42));
+            Assert.IsTrue(fact.IsSatisfiedByValue(38));
+            Assert.IsTrue(fact.IsSatisfiedByValue(-10));
+            Assert.IsTrue(fact.IsSatisfiedByValue(40));
+            Assert.IsFalse(fact.IsSatisfiedByValue(42));
 
-            Assert.IsFalse(fact.IsSatisfied((object)null));
+            Assert.IsFalse(fact.IsSatisfiedByValue((object)null));
         }
 
         [TestMethod]
@@ -53,12 +53,12 @@ namespace AjRools.Expert.Tests.Facts
             Assert.AreEqual(">", fact.Verb);
             Assert.AreEqual(38, fact.Value);
 
-            Assert.IsTrue(fact.IsSatisfied(39));
-            Assert.IsTrue(fact.IsSatisfied(40));
-            Assert.IsFalse(fact.IsSatisfied(38));
-            Assert.IsFalse(fact.IsSatisfied(22));
+            Assert.IsTrue(fact.IsSatisfiedByValue(39));
+            Assert.IsTrue(fact.IsSatisfiedByValue(40));
+            Assert.IsFalse(fact.IsSatisfiedByValue(38));
+            Assert.IsFalse(fact.IsSatisfiedByValue(22));
 
-            Assert.IsFalse(fact.IsSatisfied((object)null));
+            Assert.IsFalse(fact.IsSatisfiedByValue((object)null));
         }
 
         [TestMethod]
@@ -70,12 +70,12 @@ namespace AjRools.Expert.Tests.Facts
             Assert.AreEqual(">=", fact.Verb);
             Assert.AreEqual(38, fact.Value);
 
-            Assert.IsTrue(fact.IsSatisfied(39));
-            Assert.IsTrue(fact.IsSatisfied(40));
-            Assert.IsTrue(fact.IsSatisfied(38));
-            Assert.IsFalse(fact.IsSatisfied(22));
+            Assert.IsTrue(fact.IsSatisfiedByValue(39));
+            Assert.IsTrue(fact.IsSatisfiedByValue(40));
+            Assert.IsTrue(fact.IsSatisfiedByValue(38));
+            Assert.IsFalse(fact.IsSatisfiedByValue(22));
 
-            Assert.IsFalse(fact.IsSatisfied((object)null));
+            Assert.IsFalse(fact.IsSatisfiedByValue((object)null));
         }
     }
 }
