@@ -18,6 +18,20 @@ namespace AjRools.Expert.Tests.Facts
         }
 
         [TestMethod]
+        public void IsSatisfiedBySubclassObject()
+        {
+            IsAFact fact = new IsAFact("p", "Fact");
+            Assert.IsTrue(fact.IsSatisfiedByValue(fact));
+        }
+
+        [TestMethod]
+        public void IsSatisfiedByInterfaceObject()
+        {
+            IsAFact fact = new IsAFact("p", "IEnumerable");
+            Assert.IsTrue(fact.IsSatisfiedByValue("123"));
+        }
+
+        [TestMethod]
         public void IsSatisfiedByFullName()
         {
             IsAFact fact = new IsAFact("p", "System.Int32");

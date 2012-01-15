@@ -18,13 +18,24 @@
 
         public bool IsSatisfiedByValue(object value)
         {
-            Type type = value.GetType();
+            return IsSatisfiedByType(value.GetType());
+        }
 
+        private bool IsSatisfiedByType(Type type)
+        {
             if (type.Name.Equals(this.type))
                 return true;
 
             if (type.FullName.Equals(this.type))
                 return true;
+
+            if (type.BaseType != null)
+                if (this.IsSatisfiedByType(type.BaseType))
+                    return true;
+
+            foreach (var @interface in type.GetInterfaces())
+                if (this.IsSatisfiedByType(@interface))
+                    return true;
 
             return false;
         }
