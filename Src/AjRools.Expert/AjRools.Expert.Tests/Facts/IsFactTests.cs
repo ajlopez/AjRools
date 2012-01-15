@@ -55,14 +55,14 @@ namespace AjRools.Expert.Tests.Facts
         public void IsNotSatisfiedByNull()
         {
             IsFact fact = new IsFact("Temperature", 38);
-            Assert.IsFalse(fact.IsSatisfiedByValue((object)null));
+            Assert.IsFalse(fact.IsSatisfiedByValue(null));
         }
 
         [TestMethod]
         public void IsSatisfiedByNullWhenNull()
         {
             IsFact fact = new IsFact("Temperature", null);
-            Assert.IsTrue(fact.IsSatisfiedByValue((object)null));
+            Assert.IsTrue(fact.IsSatisfiedByValue(null));
         }
 
         [TestMethod]
