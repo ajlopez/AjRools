@@ -43,6 +43,7 @@
     <Compile Include="Facts\ComparisonFactTests.cs" />
     <Compile Include="Facts\IsAFactTests.cs" />
     <Compile Include="Facts\IsNotFactTests.cs" />
+    <Compile Include="Facts\PropertyIsFactTests.cs" />
     <Compile Include="MyAssert.cs" />
     <Compile Include="Compiler\LexerTests.cs" />
     <Compile Include="Compiler\ParserTests.cs" />
