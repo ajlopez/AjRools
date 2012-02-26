@@ -7,6 +7,7 @@ using AjRools.Expert.Facts;
 using AjRools.Expert.Compiler;
 using System.IO;
 using AjRools.Expert.Rules;
+using AjRools.Expert.Tests.Objects;
 
 namespace AjRools.Expert.Tests
 {
@@ -215,6 +216,18 @@ namespace AjRools.Expert.Tests
             this.world.RetractFact(new IsFact("Age", 33));
             this.world.Run();
             Assert.IsFalse(this.world.IsAFact(new IsFact("HasFever", true)));
+        }
+
+        [TestMethod]
+        public void AddObject()
+        {
+            Patient p1 = new Patient();
+            Patient p2 = new Patient();
+
+            this.world.AssertObject(p1);
+
+            Assert.IsTrue(this.world.IsAnObject(p1));
+            Assert.IsFalse(this.world.IsAnObject(p2));
         }
 
         private void AddRule(string filename)

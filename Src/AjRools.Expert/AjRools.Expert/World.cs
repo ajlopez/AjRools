@@ -11,6 +11,7 @@
     {
         private IList<Fact> facts = new List<Fact>();
         private IList<Rule> rules = new List<Rule>();
+        private IList<object> objects = new List<object>();
         private Context context = new Context();
 
         private Queue<Fact> asserted = new Queue<Fact>();
@@ -19,6 +20,16 @@
         private IList<Rule> fired;
         private IList<Rule> notfired;
         private IList<Rule> nottested = new List<Rule>();
+
+        public void AssertObject(object obj)
+        {
+            this.objects.Add(obj);
+        }
+
+        public bool IsAnObject(object obj)
+        {
+            return this.objects.Contains(obj);
+        }
 
         public void AssertFact(Fact fact)
         {
@@ -42,7 +53,6 @@
 
         public void RetractFact(Fact fact)
         {
-
             if (fact is IsFact)
             {
                 IsFact isfact = (IsFact)fact;
